@@ -10,3 +10,12 @@ __pycache__/
 
 # VS Code settings
 .vscode/
+
+# Log files
+*.log
+
+# OS junk files (Windows + Mac)
+Thumbs.db          # Windows image cache file
+Desktop.ini        # Windows folder configuration file
+$RECYCLE.BIN/      # Windows recycle bin metadata
+.DS_Store          # macOS Finder folder cache file (included in case repo is shared)
