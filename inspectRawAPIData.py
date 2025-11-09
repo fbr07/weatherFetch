@@ -73,4 +73,4 @@ print(json.dumps(data, indent=2))
 
 # The OpenWeather API returns a JSON payload in the response body.
 # I parse that JSON into a Python dictionary and then extract the fields I need.
-# In file extractedFields.py
+# In file extractedAPIFields.py
