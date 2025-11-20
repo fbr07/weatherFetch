@@ -9,5 +9,25 @@ from datetime import datetime, timezone, timedelta
 from typing import Optional, Dict, Any
 
 #so what are the arguments in the function? 
-def toLocalTime(timestamp[int], timezone_offset[int]) -> Optional([str]):
-    if timestamp is None or time
+# what are we going to grab that's in UNIX  
+    # sunrise, sunset, timestamp, timezone_offset
+# okay once we grab those inputs we are going to convert them, this will create new variables
+# localSunrise, localSunset, localTimestamp, localTimezoneOffset
+
+# okay when creating a function for this, what type of function do I create?
+    # well remember these inputs are put of weather {...} inside a dictionary
+    # so we can't create a function that has 4 inputs
+
+def enrichWeather(weather: dict) -> dict:
+
+def toLocalTime(timeStamp, offset):
+    # the function above is grabbing the Unix and turning it into localtime
+    # if there is no information for the input that we need to convert that we return None so
+        # code doesn't crash
+    if timeStamp is None or offset is None:
+        return None
+    
+    timeZone = timezone(timedelta(seconds=offset))
+    dateTime = datetime.fromtimestamp(timeStamp,timeZone)
+    return dateTime.strftime("%Y-%m-%d %H:%M")
+    
