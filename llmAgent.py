@@ -1,17 +1,20 @@
 from dotenv import load_dotenv
 import os
-from openai import OpenAI
+from google import genai
+from google.genai import types
 from typing import Dict, Any
 
 load_dotenv()
 
 # 1) Load environment variables so we can access OPENAI_API_KEY
-openAIKey = os.getenv("OPENAI_API_KEY")
-if not openAIKey:
+genAIKey = os.getenv("GEMINI_API_KEY")
+if not genAIKey:
     raise SystemExit("Missing API KEY. Fix .env before running.")
 
+print("DEBUG OPENAI KEY PREFIX:", repr(genAIKey[:20]))
+print("DEBUG FULL KEY LENGTH:", len(genAIKey))
 # Create a single global client (recommended)
-client = OpenAI(api_key=openAIKey)
+client = genai.Client()
 
 # function takes enriched weather dic extracts the fields, formats into plain text so LLM can read easily
 
@@ -19,7 +22,7 @@ client = OpenAI(api_key=openAIKey)
 # 2) Build function that will prepare text for LLM
 def buildWeatherContext(weather):
     city = weather.get("city")
-    country = weather.get("county")
+    country = weather.get("country")
     temp = weather.get("temp")
     feels_like = weather.get("feels_like")
     conditions = weather.get("conditionsDesc")
@@ -78,20 +81,15 @@ def answerQuestionAboutWeather(weather, question):
         f"User question: {question}"
     )
 
-    # Calling OPENAI
+    # Calling GENAI
     try:
-        response = client.chat.completions.create(
-            model="gpt-4.1-mini",  # or gpt-4o-mini / gpt-4.1, etc.
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            temperature=0.4,  # slightly conservative for factual weather
+        response = client.models.generate_content(
+            model="gemini-2.5-flash", contents=[system_prompt, user_prompt]
         )
     except Exception as e:
         # You can log this instead, but returning a string is fine for now
-        return f"Error calling OpenAI API: {e}"
+        return f"Error calling GoogleAI API: {e}"
 
     # Extract the assistant's answer text
-    answer = response.choices[0].message.content
+    answer = response.text
     return answer
