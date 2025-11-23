@@ -34,10 +34,10 @@ def enrichWeather(weather):
     sunset = weather.get("sunset")
     timestamp = weather.get("timestamp")
 
-    # 3) Convert each timestamp using the helper function
-    enriched["sunrise_local"] = toLocalTime(sunrise, offset)
-    enriched["sunset_local"] = toLocalTime(sunset, offset)
-    enriched["timestamp_local"] = toLocalTime(timestamp, offset)
+    # Overwrite the raw Unix values with local strings
+    enriched["sunrise"] = toLocalTime(sunrise, offset)
+    enriched["sunset"] = toLocalTime(sunset, offset)
+    enriched["timestamp"] = toLocalTime(timestamp, offset)
 
     # 4) Return enriched dictionary
     return enriched

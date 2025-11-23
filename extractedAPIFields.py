@@ -24,12 +24,12 @@ def extractWeatherFields(data: dict, units: str) -> dict:
 
       what do we want this function to return a dictionary with the inputs that we are extracting so therefore -> dict
       """
-    weather = data.get("weather", [])
-    coord = data.get("coord", [])
-    main = data.get("main", [])
-    wind = data.get("main", [])
-    sys = data.get("sys", [])
-    clouds = data.get("clouds", [])
+    weather = data.get("weather", {})
+    coord = data.get("coord", {})
+    main = data.get("main", {})
+    wind = data.get("main", {})
+    sys = data.get("sys", {})
+    clouds = data.get("clouds", {})
 
     # When the JSON API printed the weather had a nested dictionary unlike the other one so therefore
     # Safely extract condition details from the "weather" list
@@ -45,8 +45,8 @@ def extractWeatherFields(data: dict, units: str) -> dict:
     return {
         "city": data.get("name"),
         "country": sys.get("country"),
-        "latitude": coord.get("coord"),
-        "longitude": coord.get("coord"),
+        "latitude": coord.get("lat"),
+        "longitude": coord.get("lon"),
         "timestamp": data.get("dt"),
         "timezone_offset": data.get("timezone"),
         "temp": main.get("temp"),

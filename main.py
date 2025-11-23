@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 import os
 import requests
 from pprint import pprint
+from enrichment import enrichWeather
+from llmAgent import answerQuestionAboutWeather
 
 load_dotenv()
 
@@ -63,8 +65,20 @@ def getCurrentWeather(
 
 # Create Integration Test (run everything together), you want to confirm that your fetch works before adding complexity"
 # The question this steps answers is, "Does my full weather pipeline work?" Does it return the correct structure for my app
+
+
 if __name__ == "__main__":
     city = input("What city:").strip() or "Dallas,US"
-    units = input("Units [imperial/metric] default imperial").strip() or "imperial"
+    units = input("Units [imperial/metric] (default imperial): ").strip() or "imperial"
+
     weatherData = getCurrentWeather(city, units)
+    weatherData = enrichWeather(weatherData)
+
+    print("\n=== ENRICHED WEATHER DATA ===")
     pprint(weatherData)
+
+    userQuestion = input("\nAsk a question about the weather: ")
+    answer = answerQuestionAboutWeather(weatherData, userQuestion)
+
+    print("\n=== LLM ANSWER ===")
+    print(answer)
