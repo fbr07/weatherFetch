@@ -68,7 +68,7 @@ def getCurrentWeather(
 
 
 if __name__ == "__main__":
-    city = input("What city:").strip() or "Dallas,US"
+    city = input("What city: ").strip() or "Dallas,US"
     units = input("Units [imperial/metric] (default imperial): ").strip() or "imperial"
 
     weatherData = getCurrentWeather(city, units)
