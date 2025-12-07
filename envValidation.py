@@ -19,4 +19,4 @@ load_dotenv()
 # Now we can test whether the variables were successfully loaded.
 # os.getenv("VAR_NAME") returns the value if it exists, otherwise it returns None.
 print(f"Weather API Key {os.getenv("OPENWEATHER_API_KEY")}")
-print(f"Weather API Key {os.getenv("OPENAI_API_KEY")}")
+print(f"LLM API Key {os.getenv("GEMINI_API_KEY")}")

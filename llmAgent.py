@@ -11,8 +11,8 @@ genAIKey = os.getenv("GEMINI_API_KEY")
 if not genAIKey:
     raise SystemExit("Missing API KEY. Fix .env before running.")
 
-print("DEBUG OPENAI KEY PREFIX:", repr(genAIKey[:20]))
-print("DEBUG FULL KEY LENGTH:", len(genAIKey))
+# print("DEBUG OPENAI KEY PREFIX:", repr(genAIKey[:20]))
+# print("DEBUG FULL KEY LENGTH:", len(genAIKey))
 # Create a single global client (recommended)
 client = genai.Client()
 
