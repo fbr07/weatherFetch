@@ -63,6 +63,17 @@ def getCurrentWeather(
     )  # where extracts occurs inside getCurrentWeather()
 
 
+# Creating a new reusable function both terminal and FASTAPI wall call
+def run_weather_qa(city, units, question):
+    weatherData = getCurrentWeather(city, units)
+
+    weatherData = enrichWeather(weatherData)
+
+    answer = answerQuestionAboutWeather(weatherData, question)
+
+    return {"weather": weatherData, "answer": answer}
+
+
 # Create Integration Test (run everything together), you want to confirm that your fetch works before adding complexity"
 # The question this steps answers is, "Does my full weather pipeline work?" Does it return the correct structure for my app
 
@@ -71,14 +82,11 @@ if __name__ == "__main__":
     city = input("What city: ").strip() or "Dallas,US"
     units = input("Units [imperial/metric] (default imperial): ").strip() or "imperial"
 
-    weatherData = getCurrentWeather(city, units)
-    weatherData = enrichWeather(weatherData)
-
     print("\n=== ENRICHED WEATHER DATA ===")
-    pprint(weatherData)
 
     userQuestion = input("\nAsk a question about the weather: ")
-    answer = answerQuestionAboutWeather(weatherData, userQuestion)
+
+    result = run_weather_qa(city, units, userQuestion)
 
     print("\n=== LLM ANSWER ===")
-    print(answer)
+    print(result)
