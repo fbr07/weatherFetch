@@ -28,13 +28,16 @@ def enrichWeather(weather):
     # 1) Make a copy so we don't mutate the original dict
     enriched = dict(weather)
 
-    # 2) Extract the raw values we need
+    # 2) Extract the raw UNIX values we need
     offset = weather.get("timezone_offset")
     sunrise = weather.get("sunrise")
     sunset = weather.get("sunset")
     timestamp = weather.get("timestamp")
 
-    # Overwrite the raw Unix values with local strings
+    #Overwrite the raw Unix values with local strings
+    #timezone offset if not a timestamp. Its number of seconds the local timezone is offset from UTC, that is why offset is in the enriched
+    #UTC timestamp represents number of secs that have elapsed Unix
+    
     enriched["sunrise"] = toLocalTime(sunrise, offset)
     enriched["sunset"] = toLocalTime(sunset, offset)
     enriched["timestamp"] = toLocalTime(timestamp, offset)

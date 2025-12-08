@@ -88,5 +88,7 @@ if __name__ == "__main__":
 
     result = run_weather_qa(city, units, userQuestion)
 
+    pprint(result["weather"])
+
     print("\n=== LLM ANSWER ===")
-    print(result)
+    print(result["answer"])
