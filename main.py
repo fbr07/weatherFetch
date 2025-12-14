@@ -3,14 +3,26 @@
 # We can now create a script(main.py) that ties all of it
 # main.py fetches the data from the API, parse the json into a Python project, extract meaningful subset, print or use that clean data in the app
 
+
 from dotenv import load_dotenv
 import os
 import requests
 from pprint import pprint
 from enrichment import enrichWeather
 from llmAgent import answerQuestionAboutWeather
+from fastapi import FastAPI
+from pydantic import BaseModel
+
 
 load_dotenv()
+
+app = FastAPI()
+
+
+class WeatherRequest(BaseModel):
+    city: str
+    units: str
+    question: str
 
 
 # getCurrentWeather is going to fetch the data, parse and extract
@@ -72,6 +84,16 @@ def run_weather_qa(city, units, question):
     answer = answerQuestionAboutWeather(weatherData, question)
 
     return {"weather": weatherData, "answer": answer}
+
+
+@app.post("/ask")
+def ask_weather(request: WeatherRequest):
+    result = run_weather_qa(
+        city=request.city,
+        units=request.units,
+        question=request.question,
+    )
+    return result
 
 
 # Create Integration Test (run everything together), you want to confirm that your fetch works before adding complexity"
