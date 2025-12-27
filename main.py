@@ -10,13 +10,18 @@ import requests
 from pprint import pprint
 from enrichment import enrichWeather
 from llmAgent import answerQuestionAboutWeather
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Form
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
 
 load_dotenv()
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 
 class WeatherRequest(BaseModel):
@@ -93,7 +98,12 @@ def ask_weather(request: WeatherRequest):
         units=request.units,
         question=request.question,
     )
-    return result
+    return 
+
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+    
 
 
 # Create Integration Test (run everything together), you want to confirm that your fetch works before adding complexity"
